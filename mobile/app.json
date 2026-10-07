@@ -6,12 +6,21 @@
     "scheme": "syncnotes",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.syncnotes.app"
+      "bundleIdentifier": "com.syncnotes.app",
+      "infoPlist": {
+        "ExpoLocalization_supportsRTL": true
+      }
     },
     "android": {
-      "package": "com.syncnotes.app"
+      "package": "com.syncnotes.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "monochromeImage": "./assets/monochrome-icon.png",
+        "backgroundColor": "#3358E4"
+      }
     },
     "plugins": [
       "expo-router",
@@ -22,8 +31,20 @@
           "supportsRTL": true
         }
       ],
-      "expo-notifications",
-      "@react-native-community/datetimepicker"
-    ]
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#2F5BEA"
+        }
+      ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ec1585b8-6a08-4b24-9c31-a132d9ea7df1"
+      }
+    },
+    "owner": "narko1515"
   }
 }
