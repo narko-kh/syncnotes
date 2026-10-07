@@ -1,0 +1,63 @@
+// ─────────────────────────────────────────────
+// ساختار دیتابیس SyncNotes
+// هر کاربر فقط به داده‌های خودش دسترسی دارد (همه جدول‌ها userId دارند).
+// ─────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// نوع آیتم: وظیفه یا یادداشت
+enum ItemType {
+  TASK
+  NOTE
+}
+
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  passwordHash     String
+  // هش توکن رفرش فعلی (خود توکن ذخیره نمی‌شود، برای امنیت بیشتر)
+  refreshTokenHash String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  items Item[]
+  tags  Tag[]
+}
+
+model Item {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      ItemType
+  title     String   @db.VarChar(200)
+  content   String   @default("")
+  isDone    Boolean  @default(false)
+  tags      Tag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // حذف نرم: رکورد پاک نمی‌شود تا دستگاه‌های دیگر هم حذف را بفهمند
+  deletedAt DateTime?
+  // موعد انجام و زمان یادآوری (اختیاری)
+  dueAt     DateTime?
+  remindAt  DateTime?
+  // این ایندکس همگام‌سازی و لیست کردن را سریع می‌کند
+  @@index([userId, updatedAt])
+}
+
+model Tag {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name   String @db.VarChar(40)
+  items  Item[]
+
+  // نام تگ برای هر کاربر یکتا است
+  @@unique([userId, name])
+}

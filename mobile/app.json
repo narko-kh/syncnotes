@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "SyncNotes",
+    "slug": "syncnotes",
+    "version": "1.0.0",
+    "scheme": "syncnotes",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.syncnotes.app"
+    },
+    "android": {
+      "package": "com.syncnotes.app"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-localization",
+        {
+          "supportsRTL": true
+        }
+      ],
+      "expo-notifications",
+      "@react-native-community/datetimepicker"
+    ]
+  }
+}

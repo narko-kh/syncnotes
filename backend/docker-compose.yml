@@ -1,0 +1,16 @@
+# PostgreSQL database for development environment
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: syncnotes
+      POSTGRES_PASSWORD: syncnotes
+      POSTGRES_DB: syncnotes
+    ports:
+      - "5433:5432"
+    volumes:
+      - syncnotes_db:/var/lib/postgresql/data
+
+volumes:
+  syncnotes_db:
